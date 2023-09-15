@@ -16,23 +16,13 @@ def minOperations(n):
     if n <= 1:
         return 0
 
-    dp = [float('inf')] * (n + 1)
-    dp[1] = 0
+    operations = 0
+    divisor = 2
 
-    for i in range(2, n + 1):
-        for j in range(2, int(i ** 0.5) + 1):
-            if i % j == 0:
-                dp[i] = min(dp[i], dp[j] + i // j)
-                if i // j != j:
-                    dp[i] = min(dp[i], dp[i // j] + j)
-        if dp[i] == float('inf'):
-            dp[i] = i
+    while n > 1:
+        while n % divisor == 0:
+            operations += divisor
+            n //= divisor
+        divisor += 1
 
-    return dp[n]
-
-if __name__ == "__main__":
-    n = 4
-    print("Min # of operations to reach {} char: {}".format(n, minOperations(n)))
-
-    n = 12
-    print("Min # of operations to reach {} char: {}".format(n, minOperations(n)))
+    return operations
